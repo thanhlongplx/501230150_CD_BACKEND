@@ -24,6 +24,9 @@ export async function listCategory(req, res) {
   }
   if (!sort) {
     sort = { createdAt: -1 };
+  } else {
+    const sortArray = sort.split("_");
+    sort = { [sortArray[0]]: sortArray[1] === "ASC" ? 1 : -1 };
   }
   try {
     const countCategories = await CategoryModel.countDocuments(filters);
