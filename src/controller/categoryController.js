@@ -6,13 +6,13 @@ export async function listCategory(req, res) {
   const pageSize = !!req.query?.pageSize ? parseInt(req.query.pageSize) : 2;
   const page = !!req.query?.page ? parseInt(req.query.page) : 1;
   const skip = (page - 1) * pageSize;
-  const sort = !!req.query?.sort ? req.query.sort : null;
+  let sort = !!req.query?.sort ? req.query.sort : null;
   const sortObjects = [
-    {code:"name_DESC",name:"Ten giam dan"},
-    {code:"name_ASC", name:"Ten tang dan"},
-    {code:"code_DESC",name:"Ma giam dan"},
-    {code:"code_ASC", name:"Ma tang dan"},
-  ]
+    { code: "name_DESC", name: "Ten giam dan" },
+    { code: "name_ASC", name: "Ten tang dan" },
+    { code: "code_DESC", name: "Ma giam dan" },
+    { code: "code_ASC", name: "Ma tang dan" },
+  ];
   const filters = {
     deleteAt: null,
   };
@@ -22,11 +22,15 @@ export async function listCategory(req, res) {
       $options: "i",
     };
   }
+  if (!sort) {
+    sort = { createdAt: -1 };
+  }
   try {
     const countCategories = await CategoryModel.countDocuments(filters);
     const categories = await CategoryModel.find(filters)
       .skip(skip)
-      .limit(pageSize);
+      .limit(pageSize)
+      .sort(sort);
 
     res.render("pages/categories/list", {
       title: "categories",
@@ -42,15 +46,24 @@ export async function listCategory(req, res) {
   }
 }
 export async function renderpageCreateCategory(req, res) {
+  let err = {}; // Khai báo biến err
   res.render("pages/categories/form", {
     title: "Create categories",
     mode: "Create",
     category: {},
+    err,
   });
 }
 export async function createCategory(req, res) {
   const { code, name, searchString, image } = req.body;
   try {
+    const category = await CategoryModel.findOne({
+      code: code,
+      deletedAt: null,
+    });
+    if (category) {
+      throw "code";
+    }
     await CategoryModel.create({
       code,
       name,
@@ -59,8 +72,24 @@ export async function createCategory(req, res) {
       createAt: new Date(),
     });
     res.redirect("/categories");
-  } catch (e) {
-    res.send("Tao khong thanh cong");
+  } catch (error) {
+    let err = {};
+    if (error === "code") {
+      err.code = "Ma san pham da ton tai";
+    }
+
+    if (error.name === "ValidationError") {
+      Object.keys(error.errors).forEach((key) => {
+        err[key] = error.errors[key].message;
+      });
+      console.log("err", err);
+    }
+    res.render("pages/categories/form", {
+      title: "Create categories",
+      mode: "Create",
+      category: { code, name, searchString, image, createAt: new Date() },
+      err,
+    });
   }
 }
 
@@ -76,6 +105,7 @@ export async function renderpageUpdateCategory(req, res) {
         title: "update categories",
         mode: "Update",
         category: category,
+        err: {},
       });
     } else {
       res.send("Ko tim thay");
@@ -87,6 +117,13 @@ export async function renderpageUpdateCategory(req, res) {
 export async function updateCategory(req, res) {
   const { code, name, searchString, image, id } = req.body;
   try {
+    const category = await CategoryModel.findOne({
+      code: code,
+      deletedAt: null,
+    });
+    if (category) {
+      throw "code";
+    }
     await CategoryModel.updateOne(
       { _id: new ObjectId(id) },
       {
@@ -98,8 +135,24 @@ export async function updateCategory(req, res) {
       }
     );
     res.redirect("/categories");
-  } catch (e) {
-    res.send("Success");
+  } catch (error) {
+    let err = {};
+    if (error === "code") {
+      err.code = "Ma san pham da ton tai";
+    }
+
+    if (error.name === "ValidationError") {
+      Object.keys(error.errors).forEach((key) => {
+        err[key] = error.errors[key].message;
+      });
+      console.log("err", err);
+    }
+    res.render("pages/categories/form", {
+      title: "Update categories",
+      mode: "Update",
+      category: { code, name, searchString, image, createAt: new Date(), id },
+      err,
+    });
   }
 }
 
@@ -115,6 +168,7 @@ export async function renderpageDeleteCategory(req, res) {
         title: "Delete categories",
         mode: "Delete",
         category: category,
+        err: {},
       });
     } else {
       res.send("Ko tim thay");

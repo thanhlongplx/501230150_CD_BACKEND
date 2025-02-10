@@ -38,7 +38,17 @@
                             id="id">
                         </div>
                 <% } %>
-                    <div class="form-group">
+
+                        <!-- error input 
+                        <div class="form-group has-error has-feedback">
+                            <label for="errorInput">Error Input</label>
+                            <input type="text" id="errorInput" value="Error" class="form-control">
+                            <small id="emailHelp" class="form-text text-muted">Please provide a valid informations.</small>
+                        </div>
+                        -->
+
+                        
+                    <div class="form-group <%= err?.code && 'has-error has-feedback' %>">
                         <label for="code">Mã loại </label>
                         <input 
                         name="code"
@@ -49,8 +59,10 @@
                         placeholder="Nhập mã sản phẩm"
                         <% if (mode === 'Delete') { %> disabled <% } %>
                         />
+                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.code%></small>
                     </div>
-                    <div class="form-group">
+                    
+                    <div class="form-group <%= err?.name && 'has-error has-feedback' %>">
                         <label for="name">Tên loại </label>
                         <input 
                         name="name"
@@ -61,8 +73,10 @@
                         placeholder="Nhập tên sản phẩm"
                         <% if (mode === 'Delete') { %> disabled <% } %>
                         />
+                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.name%></small>
                     </div>
-                    <div class="form-group">
+                   
+                    <div class="form-group <%= err?.searchString && 'has-error has-feedback' %>">
                         <label for="name">Chuỗi tìm kiếm </label>
                         <input 
                         name="searchString"
@@ -73,8 +87,11 @@
                         placeholder="Chuỗi tìm kím"
                         <% if (mode === 'Delete') { %> disabled <% } %>
                         />
+                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.searchString%></small>
                     </div>
-                    <div class="form-group">
+                    
+
+                    <div class="form-group <%= err?.image && 'has-error has-feedback' %>">
                         <label for="image">Link hình ảnh</label>
                         <input 
                         name="image"
@@ -84,6 +101,8 @@
                         id="image" 
                         placeholder="nhập link hình ảnh"
                         <% if (mode === 'Delete') { %> disabled <% } %>
+                        />
+                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.image%></small>
                     </div>
                     <div class="card-action"> 
                      <% if(mode === "Create") { %>
