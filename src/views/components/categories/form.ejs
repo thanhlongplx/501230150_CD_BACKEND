@@ -1,0 +1,104 @@
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">
+            <% if(mode === "Create") { %>
+                Tạo mới
+            <% } %>
+            <% if(mode === "Update") { %>
+                Cập nhật 
+            <% } %>
+            <% if(mode === "Delete") { %>
+                Bạn có xoa san pham khong <%=category?.name%>
+            <% } %>
+        </h4>
+        <div class="card">
+            <div class="card-body">
+                <% if(mode === "Create") { %>
+                    <form action="/categories/create" method="post">
+                <% } %>
+                <% if(mode === "Update") { %>
+                    <form action="/categories/update" method="post">
+                        <div class="form-group" style="display: none;">
+                            <input 
+                            name="id"
+                            type="text"
+                            value="<%= category?._id %>" 
+                            class="form-control" 
+                            id="id">
+                        </div>
+                <% } %>
+                <% if(mode === "Delete") { %>
+                    <form action="/categories/delete" method="post">
+                        <div class="form-group" style="display: none;">
+                            <input 
+                            name="id"
+                            type="text"
+                            value="<%= category?._id %>" 
+                            class="form-control" 
+                            id="id">
+                        </div>
+                <% } %>
+                    <div class="form-group">
+                        <label for="code">Mã loại </label>
+                        <input 
+                        name="code"
+                        type="text"
+                        value="<%= category?.code %>" 
+                        class="form-control" 
+                        id="code" 
+                        placeholder="Nhập mã sản phẩm"
+                        <% if (mode === 'Delete') { %> disabled <% } %>
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Tên loại </label>
+                        <input 
+                        name="name"
+                        type="text" 
+                        value="<%= category?.name%>" 
+                        class="form-control" 
+                        id="name" 
+                        placeholder="Nhập tên sản phẩm"
+                        <% if (mode === 'Delete') { %> disabled <% } %>
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Chuỗi tìm kiếm </label>
+                        <input 
+                        name="searchString"
+                        type="text" 
+                        value="<%= category?.searchString %>" 
+                        class="form-control" 
+                        id="searchString" 
+                        placeholder="Chuỗi tìm kím"
+                        <% if (mode === 'Delete') { %> disabled <% } %>
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Link hình ảnh</label>
+                        <input 
+                        name="image"
+                        type="text"
+                        value="<%= category?.image %>" 
+                        class="form-control" 
+                        id="image" 
+                        placeholder="nhập link hình ảnh"
+                        <% if (mode === 'Delete') { %> disabled <% } %>
+                    </div>
+                    <div class="card-action"> 
+                     <% if(mode === "Create") { %>
+                        <button class="btn btn-success" type="submit">Tạo</button>
+                    <% } %>
+                    <% if(mode === "Update") { %>
+                        <button class="btn btn-success" type="submit">Sửa</button>
+                    <% } %>
+                    <% if(mode === "Delete") { %>
+                        <button class="btn btn-danger" type="submit">Xóa</button>
+                    <% } %>
+                        <a class="btn btn-primary" href="/categories">Trở về danh sánh sản phẩm</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

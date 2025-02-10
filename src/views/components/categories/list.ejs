@@ -1,0 +1,126 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="flex justify-content-between mb-2" style="display: flex">
+      <h4 class="page-title">Danh sách</h4>
+      <a class="btn btn-primary mb-2" href="/categories/create">Tạo sản phẩm</a>
+    </div>
+    <div class="form-group">
+      <label for="defaultSelect">Sap xep</label>
+      <select
+        class="form-control form-control"
+        id="defaultSelect"
+        onchange="changeSort(event)"
+      >
+        <% sortObjects.forEach(function(sortObject, index){ %>
+        <%if(sortObject.code === sort){%>
+        <option value="<%=sortObject.code%>" > <%=sortObject.name%></option>
+        <%}%>
+        
+        <%if(sortObject.code !== sort){%>
+        <option value="<%=sortObject.code%>"><%=sortObject.name%></option>
+        <%}%> 
+        
+        <%})%>
+      </select>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-head-bg-success">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Image</th>
+              <th scope="col">Name</th>
+              <th scope="col">Code</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% categories.forEach(function(categories, index){ %>
+            <tr>
+              <td><%=index + 1%></td>
+              <td>
+                <img
+                  src="<%= categories.image %>"
+                  alt=""
+                  width="100px"
+                  height="100px"
+                />
+              </td>
+              <td><%= categories.name %></td>
+              <td><%= categories.code %></td>
+              <td>
+                <a
+                  class="btn btn-primary btn-sm"
+                  href="/categories/update/<%=categories._id%>"
+                  >Sửa</a
+                >
+                <a
+                  class="btn btn-danger btn-sm"
+                  href="/categories/delete/<%=categories._id%>"
+                  >Xóa</a
+                >
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-body">
+        <ul class="pagination pg-primary">
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="#"
+              aria-label="Previous"
+              onclick="prevPage()"
+            >
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <% for(let i = 1; i <= countPagination; i++){ %> <%if(page === i){ %>
+          <li class="page-item active">
+            <a class="page-link active" href="#" onclick="changePage(`<%=i%>`)"
+              ><%=i%></a
+            >
+          </li>
+          <%}%> <%if(page !== i){ %>
+          <li class="page-item">
+            <a class="page-link active" href="#" onclick="changePage(`<%=i%>`)"
+              ><%=i%></a
+            >
+          </li>
+          <%}%> <% }; %>
+
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="#"
+              aria-label="Next"
+              onclick="nextPage()"
+            >
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+        <div class="form-group">
+          <label for="defaultSelect">Page Size</label>
+          <select
+            class="form-control form-control"
+            id="defaultSelect"
+            onchange="changePageSize(event)"
+          >
+            <% [1,2,3,4,5].forEach(function(pageSizeOption, index){ %>
+            <%if(pageSizeOption === pageSize){ %>
+            <option selected><%=pageSizeOption%></option>
+            <%}%> <%if(pageSizeOption !== pageSize){ %>
+            <option><%=pageSizeOption%></option>
+            <%}%> <% }); %>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
