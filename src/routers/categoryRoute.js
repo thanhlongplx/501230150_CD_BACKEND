@@ -15,7 +15,7 @@ router.get("/create", renderpageCreateCategory)
 router.post("/create", createCategory)
 
 router.get("/update/:id", renderpageUpdateCategory)
-router.post("/update/", updateCategory)
+router.post("/update/:id", updateCategory)
 
 router.get("/delete/:id", renderpageDeleteCategory)
 router.post("/delete/", deleteCategory)

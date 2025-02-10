@@ -115,11 +115,12 @@ export async function renderpageUpdateCategory(req, res) {
   }
 }
 export async function updateCategory(req, res) {
-  const { code, name, searchString, image, id } = req.body;
+  const { ...data } = req.body;
+  const { id } = req.params;
   try {
     const category = await CategoryModel.findOne({
-      code: code,
-      deletedAt: null,
+      code: data.code,
+      deleteAt: null,
     });
     if (category) {
       throw "code";
@@ -127,10 +128,7 @@ export async function updateCategory(req, res) {
     await CategoryModel.updateOne(
       { _id: new ObjectId(id) },
       {
-        code,
-        name,
-        searchString,
-        image,
+        ...data,
         updateAt: new Date(),
       }
     );
@@ -150,7 +148,7 @@ export async function updateCategory(req, res) {
     res.render("pages/categories/form", {
       title: "Update categories",
       mode: "Update",
-      category: { code, name, searchString, image, createAt: new Date(), id },
+      category: { ...data, id },
       err,
     });
   }

@@ -17,15 +17,15 @@
                     <form action="/categories/create" method="post">
                 <% } %>
                 <% if(mode === "Update") { %>
-                    <form action="/categories/update" method="post">
-                        <div class="form-group" style="display: none;">
+                    <form action="/categories/update/<%= category?._id %>" method="post">
+                        <!-- <div class="form-group" style="display: none;">
                             <input 
                             name="id"
                             type="text"
                             value="<%= category?._id %>" 
                             class="form-control" 
                             id="id">
-                        </div>
+                        </div> -->
                 <% } %>
                 <% if(mode === "Delete") { %>
                     <form action="/categories/delete" method="post">

@@ -13,14 +13,10 @@
       >
         <% sortObjects.forEach(function(sortObject, index){ %>
         <%if(sortObject.code === sort){%>
-        <option value="<%=sortObject.code%>" > <%=sortObject.name%></option>
-        <%}%>
-        
-        <%if(sortObject.code !== sort){%>
         <option value="<%=sortObject.code%>"><%=sortObject.name%></option>
-        <%}%> 
-        
-        <%})%>
+        <%}%> <%if(sortObject.code !== sort){%>
+        <option value="<%=sortObject.code%>"><%=sortObject.name%></option>
+        <%}%> <%})%>
       </select>
     </div>
     <div class="card">
@@ -41,7 +37,7 @@
               <td><%=index + 1%></td>
               <td>
                 <img
-                  src="<%= categories.image %>"
+                  src="../../../static/assets/img/ <%= categories.image %>"
                   alt=""
                   width="100px"
                   height="100px"
