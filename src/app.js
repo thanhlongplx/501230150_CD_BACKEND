@@ -9,6 +9,7 @@ const port = 5200;
 
 mongoConnect();
 app.use("/static", express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/src/views");

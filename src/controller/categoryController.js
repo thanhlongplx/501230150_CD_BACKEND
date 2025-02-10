@@ -120,11 +120,14 @@ export async function updateCategory(req, res) {
   try {
     const category = await CategoryModel.findOne({
       code: data.code,
+      _id: { $ne: new ObjectId(id) }, // Loại trừ ID hiện tại
       deleteAt: null,
     });
+
     if (category) {
       throw "code";
     }
+
     await CategoryModel.updateOne(
       { _id: new ObjectId(id) },
       {
@@ -132,11 +135,12 @@ export async function updateCategory(req, res) {
         updateAt: new Date(),
       }
     );
+
     res.redirect("/categories");
   } catch (error) {
     let err = {};
     if (error === "code") {
-      err.code = "Ma san pham da ton tai";
+      err.code = "Mã sản phẩm đã tồn tại";
     }
 
     if (error.name === "ValidationError") {
@@ -145,8 +149,9 @@ export async function updateCategory(req, res) {
       });
       console.log("err", err);
     }
+
     res.render("pages/categories/form", {
-      title: "Update categories",
+      title: "Cập nhật danh mục",
       mode: "Update",
       category: { ...data, id },
       err,
