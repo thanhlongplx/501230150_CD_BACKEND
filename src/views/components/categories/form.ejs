@@ -18,14 +18,7 @@
                 <% } %>
                 <% if(mode === "Update") { %>
                     <form action="/categories/update/<%= category?._id %>" method="post">
-                        <!-- <div class="form-group" style="display: none;">
-                            <input 
-                            name="id"
-                            type="text"
-                            value="<%= category?._id %>" 
-                            class="form-control" 
-                            id="id">
-                        </div> -->
+                        
                 <% } %>
                 <% if(mode === "Delete") { %>
                     <form action="/categories/delete" method="post">
@@ -53,7 +46,7 @@
                         <input 
                         name="code"
                         type="text"
-                        value="<%= category?.code %>" 
+                        value="<%= category?.code || category?.oldId %>" 
                         class="form-control" 
                         id="code" 
                         placeholder="Nhập mã sản phẩm"
@@ -104,6 +97,7 @@
                         />
                         <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.image%></small>
                     </div>
+                    
                     <div class="card-action"> 
                      <% if(mode === "Create") { %>
                         <button class="btn btn-success" type="submit">Tạo</button>

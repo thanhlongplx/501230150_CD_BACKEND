@@ -2,35 +2,35 @@ import CategoryModel from "../models/categoryModel.js";
 
 const data = [
   {
-    code: "QU_001",
+    code: "Q_001",
     name: "Quan",
     searchString: "quan",
     image: "profile.jpg",
     createdAt: new Date(),
   },
   {
-    code: "AO_001",
+    code: "A_001",
     name: "Ao",
     searchString: "ao",
     image: "profile2.jpg",
     createdAt: new Date(),
   },
   {
-    code: "GI_001",
+    code: "G_001",
     name: "Giay",
     searchString: "giay",
     image: "profile2.jpg",
     createdAt: new Date(),
   },
   {
-    code: "DE_001",
+    code: "D_001",
     name: "Dep",
     searchString: "dep",
     image: "profile.jpg",
     createdAt: new Date(),
   },
   {
-    code: "PK_001",
+    code: "P_001",
     name: "Phu kien",
     searchString: "phu kien",
     image: "profile.jpg",

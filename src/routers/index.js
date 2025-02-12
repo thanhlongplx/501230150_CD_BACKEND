@@ -1,6 +1,8 @@
 import categoryRoute from "./categoryRoute.js";
+import productRoute from "./productRoute.js";
 export default function routers(app) {
   app.use("/categories", categoryRoute);
+  app.use("/products", productRoute);
   app.get("/", (req, res) => {
     res.render("pages/index");
   });

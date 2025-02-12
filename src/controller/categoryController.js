@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import { removeVietNameseAccents } from "../common/index.js";
 export async function listCategory(req, res) {
   const search = req.query?.search;
-  const pageSize = !!req.query?.pageSize ? parseInt(req.query.pageSize) : 2;
+  const pageSize = !!req.query?.pageSize ? parseInt(req.query.pageSize) : 5;
   const page = !!req.query?.page ? parseInt(req.query.page) : 1;
   const skip = (page - 1) * pageSize;
   let sort = !!req.query?.sort ? req.query.sort : null;
@@ -144,6 +144,11 @@ export async function updateCategory(req, res) {
     let err = {};
     if (error === "code") {
       err.code = "Mã sản phẩm đã tồn tại";
+      // Lấy thông tin danh mục cũ để hiển thị lại ID cũ
+      const existingCategory = await CategoryModel.findById(id);
+      if (existingCategory) {
+        data.oldId = existingCategory._id; // Thêm ID cũ vào data để hiển thị
+      }
     }
 
     if (error.name === "ValidationError") {
@@ -156,7 +161,7 @@ export async function updateCategory(req, res) {
     res.render("pages/categories/form", {
       title: "Cập nhật danh mục",
       mode: "Update",
-      category: { ...data, id },
+      category: { ...data, id, oldId: data.oldId }, // Truyền ID cũ vào đây
       err,
     });
   }
