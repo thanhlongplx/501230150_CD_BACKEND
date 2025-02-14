@@ -52,5 +52,10 @@ productSchema.virtual("category", {
   foreignField: "_id",
   justOne: true,
 });
+
+productSchema.virtual("categoryIdString").get(function () {
+  return !!this.categoryId ? this.categoryId.toString() : "";
+});
+
 const ProductModel = mongoose.model("Product", productSchema);
 export default ProductModel;

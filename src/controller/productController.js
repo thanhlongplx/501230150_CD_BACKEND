@@ -34,7 +34,8 @@ export async function listProduct(req, res) {
   }
   try {
     const countProducts = await ProductModel.countDocuments(filters);
-    const products = await ProductModel.find(filters).populate("category")
+    const products = await ProductModel.find(filters)
+      .populate("category")
       .skip(skip)
       .limit(pageSize)
       .sort(sort);
@@ -74,6 +75,7 @@ export async function createProduct(req, res) {
     image,
     ...dataOther
   } = req.body;
+  console.log(req.body);
 
   let sizeArray = [],
     colorArray = [],
@@ -138,6 +140,7 @@ export async function createProduct(req, res) {
 
 export async function renderpageUpdateProduct(req, res) {
   try {
+    const categories = await CategoryModel.find({ deletedAt: null });
     const { id } = req.params;
     const product = await ProductModel.findOne({
       _id: new ObjectId(id),
@@ -148,6 +151,9 @@ export async function renderpageUpdateProduct(req, res) {
         title: "update products",
         mode: "Update",
         product: product,
+        sizes: sizes,
+        colors: colors,
+        categories: categories,
         err: {},
       });
     } else {
@@ -209,11 +215,17 @@ export async function renderpageDeleteProduct(req, res) {
       _id: new ObjectId(id),
       deleteAt: null,
     });
+    const categories = await CategoryModel.findOne({
+      deleteAt: null,
+    });
     if (product) {
       res.render("pages/products/form", {
         title: "Delete products",
         mode: "Delete",
         product: product,
+        sizes: sizes,
+        colors: colors,
+        categories: categories,
         err: {},
       });
     } else {

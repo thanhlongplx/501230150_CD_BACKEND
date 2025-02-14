@@ -121,10 +121,21 @@
                     <!-- Size -->
                     <div class="form-group <%= err?.sizes && 'has-error has-feedback' %>">
                         <% sizes.forEach(function(size, index){%>
-                            <label class="form-check-label">
-                                <input name="sizes" class="form-check-input" type="checkbox" value="<%=size%>">
-                                <span class="form-check-sign"><%=size%></span>
-                            </label>
+
+                            
+                                <label class="form-check-label">
+                                    <%if((product.sizes || []).includes(size)){%>
+                                    <input name="sizes" class="form-check-input" type="checkbox" value="<%=size%>" checked>
+                                    <%} else{%>
+                                        <input name="sizes" class="form-check-input" type="checkbox" value="<%=size%>" >
+                                        <%}%>
+                                    <span class="form-check-sign"><%=size%></span>
+                                </label>
+                            
+                            
+
+
+                            
                             <%})%>
 
                         <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.size%></small>
@@ -134,10 +145,20 @@
                     <div class="form-group <%= err.colors && 'has-error has-feedback' %>">
                         <label for="image">Màu sắc</label>
                         <% colors.forEach(function(color, index){%>
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="colors" value="<%=color%>">
-                                <span class="form-check-sign text-white" style="background-color: <%= color %>; color: white; border: solid black 1px;"><%= color %></span>
-                            </label>
+
+                            
+                                <label class="form-check-label">
+                                    <%if((product.colors || []).includes(color)){%>
+                                        <input class="form-check-input" type="checkbox" name="colors" value="<%=color%>" checked>
+                                        <%} else{%>
+                                            <input class="form-check-input" type="checkbox" name="colors" value="<%=color%>">
+                                            <%}%>
+                                    <span class="form-check-sign text-white" style="background-color: <%= color %>; color: white; border: solid black 1px;"><%= color %></span>
+                                </label>
+                            
+                            
+
+                            
                             <%})%>
 
                         <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.color%></small>
@@ -154,20 +175,14 @@
                             data-onstyle="default" 
                             value="true"
                         >
-                        <span>
-                            <% if (product?.active) { %>
-                                Còn hàng
-                            <% } else { %>
-                                Hết hàng
-                            <% } %>
-                        </span>
+                        
                     </div>
 
                      <!-- description -->
                      <div class="form-group <%= err?.description && 'has-error has-feedback' %>">
-                        <label for="description">Trạng thái</label>
-                        <textarea name="description" class="form-control" id="comment" rows="5">
-
+                        <label for="description">Mô tả</label>
+                        <textarea name="description" class="form-control" id="comment" rows="5" value="<%=product.description%>">
+                            <%=product.description%>
 
                         </textarea>
                      </div>
@@ -175,16 +190,23 @@
                      <div class="form-group <%= err?.information && 'has-error has-feedback' %>">
                         <label for="information">Thông tin</label>
                         <textarea name="information" class="form-control" id="comment" rows="5">
-
+                            <%=product.information%>
 
                         </textarea>
                      </div>
                      <!-- categoryId -->
                      <div class="form-group <%= err?.category && 'has-error has-feedback' %>">
+
+                        
                         <label for="category">Category</label>
                         <select class="form-control form-control max-w-20 mb-4px" name="categoryId" id="defaultSelect">
-                            <% categories.forEach(function(category, index){ %>
-                                <option value="<%=category._id%>"><%=category.name%></option>
+                            <% (product.categories || []).forEach(function(category, index){ %>
+                                <%if(category.id=== product?.categoryIdString){%>
+                                    <option value="<%=category._id%>" selected><%=category.name%></option>
+                                    <%}else{%>
+                                        <option value="<%=category._id%>" ><%=category.name%></option>
+                                        <%}%>
+                                
                             <%})%>
                             
                         </select>

@@ -28,8 +28,15 @@ const categorySchema = new Schema(
   {
     versionKey: false,
     collection: "categories",
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+categorySchema.virtual("id").get(function () {
+  return this._id.toString();
+});
+
 
 const CategoryModel = mongoose.model("category", categorySchema);
 export default CategoryModel;

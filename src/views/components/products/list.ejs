@@ -50,19 +50,29 @@
                   <div>
                     <p><%= products.code %></p>
                     <p><%= products.name %></p>
-                    <p><%= products.active %></p>
+                    <p>
+                      <% if (products.active) { %> Còn hàng <% } else { %> Hết
+                      hàng <% } %>
+                    </p>
                   </div>
                 </div>
               </td>
               <td><%=products.price%></td>
               <td>
-                <% products.colors.forEach(function(color, index){ %>
-                <span
-                  class="badge"
-                  style="background-color: <%=color%>; color: white"
-                  ><%=color%></span
-                >
-                <%})%>
+                <div class="form-group flex gap-2">
+                  <label for="image">Màu sắc</label>
+                  <% products.colors.forEach(function(color, index){%>
+                  <span
+                    class="form-check-sign text-white"
+                    style="
+                      background-color: <%=color %>;
+                      color: white;
+                      border: solid black 1px;
+                    "
+                    ><%= color %></span
+                  >
+                  <%})%>
+                </div>
               </td>
               <td><%=products.category?.name%></td>
               <td>
