@@ -170,18 +170,12 @@
                         <input 
                             name="active" 
                             type="checkbox" 
-                            <% if (product?.active) { %> checked <% } %> 
-                            data-toggle="toggle" 
-                            data-onstyle="default" 
+                            <% if (product?.active) { %> checked <%} %> 
+                            data-toggle="toggle"  
                             value="true"
+                             
                         >
-                        <span>
-                            <% if (product?.active) { %>
-                                Còn hàng
-                            <% } else { %>
-                                Hết hàng
-                            <% } %>
-                        </span>
+                        
                     </div>
 
                      <!-- description -->
@@ -206,7 +200,7 @@
                         
                         <label for="category">Category</label>
                         <select  class="form-control form-control max-w-20 mb-4px" name="categoryId" id="defaultSelect">
-                            <% (product.categories || []).forEach(function(category, index){ %>
+                            <% categories.forEach(function(category, index){ %>
                                 <%if(category.id=== product?.categoryIdString){%>
                                     <option value="<%=category._id%>" selected ><%=category.name%></option>
                                     <%}else{%>

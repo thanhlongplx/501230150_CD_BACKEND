@@ -3,6 +3,7 @@ import CategoryModel from "../models/categoryModel.js";
 import { ObjectId } from "mongodb";
 import { removeVietNameseAccents } from "../common/index.js";
 const sortObjects = [
+  { code: "", name: "Sap xep" },
   { code: "name_DESC", name: "Ten giam dan" },
   { code: "name_ASC", name: "Ten tang dan" },
   { code: "code_DESC", name: "Ma giam dan" },
@@ -181,6 +182,7 @@ export async function updateProduct(req, res) {
       { _id: new ObjectId(id) },
       {
         ...data,
+        active: data.active || false,
         updateAt: new Date(),
       }
     );

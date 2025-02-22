@@ -12,11 +12,12 @@
         onchange="changeSort(event)"
       >
         <% sortObjects.forEach(function(sortObject, index){ %>
-        <%if(sortObject.code === sort){%>
-        <option value="<%=sortObject.code%>"><%=sortObject.name%></option>
+        <%if(sortObject.code === sort ){ %>
+        <option disabled="<%=sortObject.disable%>" value="<%=sortObject.code%>"><%=sortObject.name%></option>
         <%}%> <%if(sortObject.code !== sort){%>
         <option value="<%=sortObject.code%>"><%=sortObject.name%></option>
         <%}%> <%})%>
+        
       </select>
     </div>
     <div class="card">
@@ -51,8 +52,11 @@
                     <p><%= products.code %></p>
                     <p><%= products.name %></p>
                     <p>
-                      <% if (products.active) { %> Còn hàng <% } else { %> Hết
-                      hàng <% } %>
+                      <% if (products.active) { %>
+                         Còn hàng <% } 
+                         else { %>
+                           Hết hàng 
+                           <% } %>
                     </p>
                   </div>
                 </div>

@@ -13,7 +13,7 @@
       >
         <% sortObjects.forEach(function(sortObject, index){ %>
         <%if(sortObject.code === sort){%>
-        <option value="<%=sortObject.code%>"><%=sortObject.name%></option>
+        <option selected value="<%=sortObject.code%>"><%=sortObject.name%></option>
         <%}%> <%if(sortObject.code !== sort){%>
         <option value="<%=sortObject.code%>"><%=sortObject.name%></option>
         <%}%> <%})%>

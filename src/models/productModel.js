@@ -29,7 +29,7 @@ const productSchema = new Schema(
       type: [String],
       enum: ["red", "blue", "green", "yellow"],
     },
-    active: String,
+    active: Boolean,
     description: String,
     information: String,
     images: [String],
