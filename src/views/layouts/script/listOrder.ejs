@@ -1,0 +1,101 @@
+<script>
+  function changePage(page) {
+    let urlParams = new URLSearchParams(window.location.search);
+    let queryString = [];
+    urlParams.forEach((value, key) => {
+      if (key !== "page") {
+        queryString.push(`${key}=${value}`);
+      }
+    });
+    queryString.push("page=" + page);
+    let url = "/orders?" + queryString.join("&&");
+
+    window.location.href = url;
+  }
+
+  function changePageSize(event) {
+    let selectedValue = event.target.value;
+    let urlParams = new URLSearchParams(window.location.search);
+    let queryString = [];
+    urlParams.forEach((value, key) => {
+      if (!["pageSize", "page"].includes(key)) {
+        queryString.push(`${key}=${value}`);
+      }
+    });
+    queryString.push("page=1&&pageSize=" + selectedValue);
+    let url = "/orders?" + queryString.join("&&");
+    window.location.href = url;
+  }
+
+  function setPageSize() {
+    let urlParams = new URLSearchParams(window.location.search);
+    const pageSize = urlParams.get("pageSize");
+    if (pageSize) {
+      $(`#defaultSelect option[value='${pageSize}']`).prop("selected", true);
+    }
+  }
+  setPageSize();
+
+  function nextPage() {
+    let maxPageString = "<%=countPagination%>";
+    maxPage = parseInt(maxPageString);
+    let urlParams = new URLSearchParams(window.location.search);
+    let queryString = [];
+    let page = urlParams.get("page");
+    let nextPage = null;
+    if (!page) {
+      nextPage = 2;
+    } else {
+      nextPage = parseInt(page) + 1;
+    }
+    if (nextPage > maxPage) {
+      return;
+    }
+    urlParams.forEach((value, key) => {
+      if (key !== "page") {
+        queryString.push(`${key}=${value}`);
+      }
+    });
+    queryString.push("page=" + nextPage);
+    let url = "/orders?" + queryString.join("&&");
+
+    window.location.href = url;
+  }
+  function prevPage() {
+    let urlParams = new URLSearchParams(window.location.search);
+    let queryString = [];
+    let page = urlParams.get("page");
+    let prevPage = null;
+    if (!page) {
+      prevPage = 0;
+    } else {
+      prevPage = parseInt(page) - 1;
+    }
+    if (prevPage < 1) {
+      return;
+    }
+    urlParams.forEach((value, key) => {
+      if (key !== "page") {
+        queryString.push(`${key}=${value}`);
+      }
+    });
+    queryString.push("page=" + prevPage);
+    let url = "/orders?" + queryString.join("&&");
+    window.location.href = url;
+  }
+
+  function changeSort(event) {
+    const value = event.target.value;
+    let urlParams = new URLSearchParams(window.location.search);
+    let page = urlParams.get("sort");
+    let queryString = [];
+    urlParams.forEach((value, key) => {
+      if (key !== "sort") {
+        queryString.push(`${key}=${value}`);
+      }
+    });
+    queryString.push("sort=" + value);
+    let url = "/orders?" + queryString.join("&&");
+    window.location.href = url;
+  }
+</script>

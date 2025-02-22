@@ -108,11 +108,11 @@
                     <div class="form-group <%= err.images && 'has-error has-feedback' %>">
                         <label for="image">Link hình ảnh</label>
                         <input 
-                        name="images"
+                        name="image"
                         type="text"
                         value="<%=typeof product?.images ==='object' ? product?.images[0] : 'HOHO'%>" 
                         class="form-control" 
-                        id="images" 
+                        id="image" 
                         placeholder="nhập link hình ảnh"
                         
                         />
@@ -143,7 +143,7 @@
 
                     <!-- Color -->
                     <div class="form-group <%= err.colors && 'has-error has-feedback' %>">
-                        <label for="color">Màu sắc</label>
+                        <label for="image">Màu sắc</label>
                         <% colors.forEach(function(color, index){%>
 
                             
@@ -175,18 +175,12 @@
                             data-onstyle="default" 
                             value="true"
                         >
-                        <span>
-                            <% if (product?.active) { %>
-                                Còn hàng
-                            <% } else { %>
-                                Hết hàng
-                            <% } %>
-                        </span>
+                        
                     </div>
 
                      <!-- description -->
                      <div class="form-group <%= err?.description && 'has-error has-feedback' %>">
-                        <label for="description">Trạng thái</label>
+                        <label for="description">Mô tả</label>
                         <textarea name="description" class="form-control" id="comment" rows="5" value="<%=product.description%>">
                             <%=product.description%>
 
@@ -205,10 +199,10 @@
 
                         
                         <label for="category">Category</label>
-                        <select  class="form-control form-control max-w-20 mb-4px" name="categoryId" id="defaultSelect">
+                        <select class="form-control form-control max-w-20 mb-4px" name="categoryId" id="defaultSelect">
                             <% (product.categories || []).forEach(function(category, index){ %>
                                 <%if(category.id=== product?.categoryIdString){%>
-                                    <option value="<%=category._id%>" selected ><%=category.name%></option>
+                                    <option value="<%=category._id%>" selected><%=category.name%></option>
                                     <%}else{%>
                                         <option value="<%=category._id%>" ><%=category.name%></option>
                                         <%}%>

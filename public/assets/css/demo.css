@@ -99,3 +99,20 @@
 .from-show-notify label{
 	padding-top: 0.65rem;
 }
+.form-group {
+    margin-bottom: 1.5rem; /* Increased margin for better spacing */
+}
+
+#defaultSelect {
+    width: 100%; /* Ensure the select takes full width */
+    max-width: 400px; /* Set a maximum width */
+}
+
+.card-body {
+    padding: 2rem; /* Add padding to the card body */
+}
+
+.card-action {
+    display: flex; /* Use flexbox for better alignment */
+    justify-content: space-between; /* Space out buttons */
+}

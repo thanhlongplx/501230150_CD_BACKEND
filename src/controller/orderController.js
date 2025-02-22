@@ -1,5 +1,13 @@
 import OrderModel from "../models/orderModel.js";
 import { ObjectId } from "mongodb";
+
+const sortObjects = [
+  { code: "name_DESC", name: "Ten giam dan" },
+  { code: "name_ASC", name: "Ten tang dan" },
+  { code: "code_DESC", name: "Ma giam dan" },
+  { code: "code_ASC", name: "Ma tang dan" },
+];
+
 export async function listOrder(req, res) {
   const search = req.query?.search;
   const pageSize = !!req.query?.pageSize ? parseInt(req.query.pageSize) : 5;
@@ -32,16 +40,16 @@ export async function listOrder(req, res) {
       .limit(pageSize)
       .sort(sort);
 
-    // res.render("pages/categories/list", {
-    //   title: "categories",
-    //   categories: categories,
-    //   countPagination: Math.ceil(countCategories / pageSize),
-    //   pageSize,
-    //   page,
-    //   sort,
-    //   sortObjects,
-    // });
-    res.send({ countOrders });
+    res.render("pages/orders/list", {
+      title: "Orders",
+      orders: orders,
+      countPagination: Math.ceil(countOrders / pageSize),
+      pageSize,
+      page,
+      sort,
+      sortObjects,
+    });
+    // res.send({ countOrders });
   } catch (e) {
     res.send("Loi lay danh sach");
   }
@@ -73,7 +81,7 @@ export async function createOrder(req, res) {
   }
   total = (subTotal * (100 - discount)) / 100;
   try {
-    const rs = await CategoryModel.create({
+    const rs = await OrderModel.create({
       orderNo: orderNo,
       discount: discount,
       total: total,
