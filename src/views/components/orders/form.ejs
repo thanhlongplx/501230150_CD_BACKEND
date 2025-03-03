@@ -2,13 +2,13 @@
     <div class="container-fluid">
         <h4 class="page-title">
             <% if(mode === "Create") { %>
-                Tạo mới
+                Tạo đơn hàng mới
             <% } %>
             <% if(mode === "Update") { %>
-                Cập nhật 
+                Cập nhật đơn hàng
             <% } %>
             <% if(mode === "Delete") { %>
-                Bạn có xoa san pham khong <%=product?.name%>
+                Bạn có hủy đơn hàng khong <%=product?.name%>
             <% } %>
         </h4>
         <div class="card">
@@ -48,169 +48,129 @@
                         -->
 
                         
-                    <div class="form-group <%= err?.code && 'has-error has-feedback' %>">
-                        <label for="code">Mã san pham </label>
+                    <div class="form-group <%= err?.discount && 'has-error has-feedback' %>">
+                        <label for="code">Giảm giá </label>
                         <input 
                         name="code"
-                        type="text"
-                        value="<%= product?.code %>" 
+                        type="number"
+                        value="<%= order?.discount %>" 
                         class="form-control" 
                         id="code" 
-                        placeholder="Nhập mã sản phẩm"
+                        placeholder="Nhập giảm giá"
                         <% if (mode === 'Delete') { %> disabled <% } %>
                         />
-                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.code%></small>
+                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.discount%></small>
                     </div>
-                    
-                    <div class="form-group <%= err?.name && 'has-error has-feedback' %>">
-                        <label for="name">Tên loại </label>
-                        <input 
-                        name="name"
-                        type="text" 
-                        value="<%= product?.name%>" 
-                        class="form-control" 
-                        id="name" 
-                        placeholder="Nhập tên sản phẩm"
-                        <% if (mode === 'Delete') { %> disabled <% } %>
-                        />
-                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.name%></small>
-                    </div>
-                   
-                    <div class="form-group <%= err?.searchString && 'has-error has-feedback' %>">
-                        <label for="name">Chuỗi tìm kiếm </label>
-                        <input 
-                        name="searchString"
-                        type="text" 
-                        value="<%= product?.searchString %>" 
-                        class="form-control" 
-                        id="searchString" 
-                        placeholder="Chuỗi tìm kím"
-                        <% if (mode === 'Delete') { %> disabled <% } %>
-                        />
-                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.searchString%></small>
-                    </div>
-
-                    <div class="form-group <%= err?.price && 'has-error has-feedback' %>">
-                        <label for="name">Giá</label>
-                        <input 
-                        name="price"
-                        type="number" 
-                        value="<%= product?.price %>" 
-                        class="form-control" 
-                        id="price" 
-                        placeholder="Giá"
-                        <% if (mode === 'Delete') { %> disabled <% } %>
-                        />
-                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.price%></small>
-                    </div>
-                    
-
-                    <div class="form-group <%= err.images && 'has-error has-feedback' %>">
-                        <label for="image">Link hình ảnh</label>
-                        <input 
-                        name="image"
-                        type="text"
-                        value="<%=typeof product?.images ==='object' ? product?.images[0] : 'HOHO'%>" 
-                        class="form-control" 
-                        id="image" 
-                        placeholder="nhập link hình ảnh"
-                        
-                        />
-                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.images%></small>
-                    </div>
-                    <!-- Size -->
-                    <div class="form-group <%= err?.sizes && 'has-error has-feedback' %>">
-                        <% sizes.forEach(function(size, index){%>
-
-                            
-                                <label class="form-check-label">
-                                    <%if((product.sizes || []).includes(size)){%>
-                                    <input name="sizes" class="form-check-input" type="checkbox" value="<%=size%>" checked>
-                                    <%} else{%>
-                                        <input name="sizes" class="form-check-input" type="checkbox" value="<%=size%>" >
-                                        <%}%>
-                                    <span class="form-check-sign"><%=size%></span>
-                                </label>
-                            
-                            
-
-
-                            
-                            <%})%>
-
-                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.size%></small>
-                    </div>
-
-                    <!-- Color -->
-                    <div class="form-group <%= err.colors && 'has-error has-feedback' %>">
-                        <label for="image">Màu sắc</label>
-                        <% colors.forEach(function(color, index){%>
-
-                            
-                                <label class="form-check-label">
-                                    <%if((product.colors || []).includes(color)){%>
-                                        <input class="form-check-input" type="checkbox" name="colors" value="<%=color%>" checked>
-                                        <%} else{%>
-                                            <input class="form-check-input" type="checkbox" name="colors" value="<%=color%>">
-                                            <%}%>
-                                    <span class="form-check-sign text-white" style="background-color: <%= color %>; color: white; border: solid black 1px;"><%= color %></span>
-                                </label>
-                            
-                            
-
-                            
-                            <%})%>
-
-                        <small id="emailHelp" class="form-text text-muted text-danger"><%= err?.color%></small>
-                    </div>
-
-                    <!-- Active -->
-                    <div class="form-group <%= err?.active && 'has-error has-feedback' %>">
-                        <label for="active">Trạng thái</label>
-                        <input 
-                            name="active" 
-                            type="checkbox" 
-                            <% if (product?.active) { %> checked <% } %> 
-                            data-toggle="toggle" 
-                            data-onstyle="default" 
-                            value="true"
-                        >
-                        
-                    </div>
-
-                     <!-- description -->
-                     <div class="form-group <%= err?.description && 'has-error has-feedback' %>">
-                        <label for="description">Mô tả</label>
-                        <textarea name="description" class="form-control" id="comment" rows="5" value="<%=product.description%>">
-                            <%=product.description%>
-
-                        </textarea>
-                     </div>
-                     <!-- information -->
-                     <div class="form-group <%= err?.information && 'has-error has-feedback' %>">
-                        <label for="information">Thông tin</label>
-                        <textarea name="information" class="form-control" id="comment" rows="5">
-                            <%=product.information%>
-
-                        </textarea>
-                     </div>
-                     <!-- categoryId -->
-                     <div class="form-group <%= err?.category && 'has-error has-feedback' %>">
-
-                        
-                        <label for="category">Category</label>
-                        <select class="form-control form-control max-w-20 mb-4px" name="categoryId" id="defaultSelect">
-                            <% (product.categories || []).forEach(function(category, index){ %>
-                                <%if(category.id=== product?.categoryIdString){%>
-                                    <option value="<%=category._id%>" selected><%=category.name%></option>
-                                    <%}else{%>
-                                        <option value="<%=category._id%>" ><%=category.name%></option>
-                                        <%}%>
+                    <div class="form-group">
+                        <label for="code">Danh sách sản phẩm</label>
+                        <div id="listProduct">
+                            <div  class="d-flex " >
+                                <button class="btn btn-success" type="submit"><i class="la la-plus"></i></button>
+                            <select  class="form-control form-control max-w-20 mb-4px" name="itemSelect" id="itemSelect">
+                                <option value=""  >Chọn sản phẩm</option>
+                                <% products.forEach(function(product, index){ %>
+                                        <option value="<%=product._id + '-' + product.productCode%>"  ><%=product.name%></option>
+                                <%})%>
                                 
-                            <%})%>
+                            </select>
+                            <input 
+                        name="quantity"
+                        type="number"
+                        value="<%= order?.quantity %>" 
+                        class="form-control" 
+                        id="quantity" 
+                        placeholder="Nhập quantity"
+                       
+                        />
+                            <input 
+                        name="price"
+                        type="number"
+                        value="<%= order?.price %>" 
+                        class="form-control" 
+                        id="itemPrice" 
+                        disabled
+                        />
+
+                        <select  class="form-control form-control max-w-20 mb-4px" name="itemColor" id="itemColor">
+                            <option value=""  >Chọn màu</option>
+                            
                             
                         </select>
+                        <select  class="form-control form-control max-w-20 mb-4px" name="itemSize" id="itemSize">
+                            <option value=""  >Chọn size</option>
+                            
+                            
+                        </select>
+                        <button class="btn btn-danger" type="submit"><i class="la la-trash"></i></button>
+                            </div>
+                            
+
+                        </div>
+
                     </div>
+                    <div class="form-group">
+                        <label for="code">Địa chỉ giao hàng</label>
+                        <div id="billingAddress">
+                            
+                            <input 
+                        name="billingAddress"
+                        type="text"
+                        class="form-control" 
+                        id="billingAddress" 
+                        placeholder="Nhập dia chi"
+                       
+                        />
+                            <input 
+                        name="billingDistrict"
+                        type="text"
+                        class="form-control" 
+                        id="billingDistrict" 
+                        placeholder="Nhập quận"
+                       
+                        />
+                            <input 
+                        name="billingCity"
+                        type="text"
+                        class="form-control" 
+                        id="billingCity" 
+                        placeholder="Nhập Tp"
+                       
+                        />
+                            <input 
+                        name="billingName"
+                        type="text"
+                        class="form-control" 
+                        id="billingName" 
+                        placeholder="Nhập name"
+                       
+                        />
+                            <input 
+                        name="billingEmail"
+                        type="email"
+                        class="form-control" 
+                        id="billingEmail" 
+                        placeholder="Nhập email" 
+                       
+                        />
+                            <input 
+                        name="billingPhoneNumber"
+                        type="number"
+                        class="form-control" 
+                        id="billingPhoneNumber" 
+                        placeholder="Nhập phoneNumber"
+                       
+                        />
+                         
+                        
+                        
+                            </div>
+                            
+
+                        </div>
+
+                    </div>
+                    
+                    
 
 
 

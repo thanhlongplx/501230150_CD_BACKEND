@@ -6,15 +6,33 @@ const orderItemSchema = new Schema(
     productCode: String,
     productId: Schema.Types.ObjectId,
     quantity: Number,
-    total: Number,
+
     price: Number,
     color: {
       type: String,
       enum: ["red", "blue", "green", "yellow"],
     },
+    sizes: {
+      type: String,
+      enum: ["S", "M", "L", "XL"],
+    },
   },
   {
     versionKey: false,
+  }
+);
+const billingAddressSchema = new Schema(
+  {
+    name: String,
+    email: String,
+    phoneNumber: Number,
+    address: String,
+    district: String,
+    city: String,
+  },
+  {
+    versionKey: false,
+    _id: false,
   }
 );
 const orderSchema = new Schema(
@@ -28,8 +46,13 @@ const orderSchema = new Schema(
       type: [orderItemSchema],
       required: [true, "Bắt buộc phải có sản phẩm trong đơn hàng"],
     },
+    billingAddress: {
+      type: billingAddressSchema,
+    },
     total: Number,
-    discount: Number,
+    discount: {
+      type: Number,
+    },
     numericalOrder: Number,
     createdAt: Date,
     updatedAt: Date,

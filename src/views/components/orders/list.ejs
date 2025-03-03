@@ -48,6 +48,16 @@
               <td><%=order.discount%>%</td>
               <td><%=order.status%></td>
               <td><%=order.total%></td>
+              <td>
+                <a
+                  class="btn btn-success"
+                  href="/products/update/<%=order._id%>"
+                  >Hoàn thành</a
+                >
+                <a class="btn btn-danger" href="/products/delete/<%=order._id%>"
+                  >Huy don</a
+                >
+              </td>
             </tr>
             <% }); %>
           </tbody>

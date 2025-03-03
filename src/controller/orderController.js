@@ -1,4 +1,5 @@
 import OrderModel from "../models/orderModel.js";
+import ProductModel from "../models/productModel.js";
 import { ObjectId } from "mongodb";
 
 const sortObjects = [
@@ -7,6 +8,8 @@ const sortObjects = [
   { code: "code_DESC", name: "Ma giam dan" },
   { code: "code_ASC", name: "Ma tang dan" },
 ];
+const sizes = ["S", "M", "L", "XL"];
+const colors = ["red", "blue", "green", "yellow"];
 
 export async function listOrder(req, res) {
   const search = req.query?.search;
@@ -54,17 +57,18 @@ export async function listOrder(req, res) {
     res.send("Loi lay danh sach");
   }
 }
-// export async function renderpageCreateCategory(req, res) {
-//   let err = {}; // Khai báo biến err
-//   res.render("pages/categories/form", {
-//     title: "Create categories",
-//     mode: "Create",
-//     category: {},
-//     err,
-//   });
-// }
+export async function renderPageSimulateCreateOrder(req, res) {
+  const products = await ProductModel.find({ deletedAt: null });
+  res.render("pages/orders/form", {
+    title: "Create order",
+    mode: "Create",
+    order: {},
+    products: products,
+    err: {},
+  });
+}
 export async function createOrder(req, res) {
-  const { discount, status, orderItems } = req.body;
+  const { discount, orderItems, billingAddress } = req.body;
   let subTotal = 0,
     total = 0,
     numericalOrder = 1;
@@ -85,10 +89,11 @@ export async function createOrder(req, res) {
       orderNo: orderNo,
       discount: discount,
       total: total,
-      status: status,
+      status: "Created",
       orderItems: orderItems,
       numericalOrder: numericalOrder,
       createAt: new Date(),
+      billingAddress: billingAddress,
     });
     res.send(rs);
   } catch (error) {
