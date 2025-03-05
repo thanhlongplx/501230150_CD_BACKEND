@@ -1,0 +1,90 @@
+<script>
+  function addNewOrderItem() {
+    $("#listProduct").append(`
+      <div  class="d-flex orderItemGroup" >
+                                <div class="btn btn-success" onclick="addNewOrderItem()"><i class="la la-plus"></i></div>
+                            <select  class="form-control form-control max-w-20 mb-4px itemSelect" name="itemSelect[]" >
+                                <option value=""  >Chọn sản phẩm</option>
+                                <% products.forEach(function(product, index){ %>
+                                        <option value="<%=product._id%>" data-colors="<%=product.colors%>" data-sizes="<%=product.sizes%>" data-price="<%=product.price%>" ><%=product.name%></option>
+                                <%})%>
+                                
+                            </select>
+                            <input 
+                        name="quantity"
+                        type="number"
+                        value="<%= order?.quantity %>" 
+                        class="form-control" 
+                        id="quantity" 
+                        placeholder="Nhập quantity"
+                       
+                        />
+                            <input 
+                        name="price"
+                        type="number"
+                        value="<%= order?.price %>" 
+                        class="form-control itemPrice" 
+                         
+                        />
+
+                        <select  class="form-control form-control max-w-20 mb-4px itemColor" name="itemColor" >
+                            <option value=""  >Chọn màu</option>
+                            
+                            
+                        </select>
+                        <select  class="form-control form-control max-w-20 mb-4px itemSize" name="itemSize" >
+                            <option value=""  >Chọn size</option>
+                            
+                            
+                        </select>
+                        <div class="btn btn-danger deleteOrderItem" ><i class="la la-trash"></i></div>
+                            </div>`);
+    removeOrderItem();
+    addSelectData();
+  }
+
+  function removeOrderItem() {
+    $(".deleteOrderItem").click(function () {
+      $(this).parent().remove();
+    });
+  }
+  removeOrderItem();
+  function addSelectData() {
+    $(".itemSelect").change(function () {
+      const selectedProduct = $(this).find("option:selected");
+      const sizesData = selectedProduct.data("sizes");
+      const colorsData = selectedProduct.data("colors");
+      const price = selectedProduct.data("price");
+
+      const sizes = sizesData.split(",");
+      const colors = colorsData.split(",");
+
+      const orderItemGroup = $(this).closest(".orderItemGroup");
+
+      const sizeSelect = orderItemGroup.find(".itemSize");
+      const colorSelect = orderItemGroup.find(".itemColor");
+      const priceInput = orderItemGroup.find(".itemPrice");
+
+
+      sizeSelect.empty();
+
+      sizeSelect.append(`<option value="">Chọn size</option>`);
+      if (sizesData.length > 0 && sizes.length > 0) {
+        sizes.forEach((size) => {
+          sizeSelect.append(`<option value="${size}">${size}</option>`);
+        });
+      }
+
+      colorSelect.empty();
+      colorSelect.append(`<option value="">Chọn màu</option>`);
+      if (colorsData.length > 0 && colors.length > 0) {
+        colors.forEach((color) => {
+          colorSelect.append(`<option value="${color}">${color}</option>`);
+        });
+      }
+
+      priceInput.val(price);
+    });
+  }
+  addSelectData();
+</script>

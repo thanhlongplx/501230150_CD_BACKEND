@@ -4,40 +4,14 @@
             <% if(mode === "Create") { %>
                 Tạo đơn hàng mới
             <% } %>
-            <% if(mode === "Update") { %>
-                Cập nhật đơn hàng
-            <% } %>
-            <% if(mode === "Delete") { %>
-                Bạn có hủy đơn hàng khong <%=product?.name%>
-            <% } %>
+            
         </h4>
         <div class="card">
             <div class="card-body">
-                <% if(mode === "Create") { %>
-                    <form action="/products/create" method="post">
-                <% } %>
-                <% if(mode === "Update") { %>
-                    <form action="/products/update/<%= product?._id %>" method="post">
-                        <!-- <div class="form-group" style="display: none;">
-                            <input 
-                            name="id"
-                            type="text"
-                            value="<%= product?._id %>" 
-                            class="form-control" 
-                            id="id">
-                        </div> -->
-                <% } %>
-                <% if(mode === "Delete") { %>
-                    <form action="/products/delete" method="post">
-                        <div class="form-group" style="display: none;">
-                            <input 
-                            name="id"
-                            type="text"
-                            value="<%= product?._id %>" 
-                            class="form-control" 
-                            id="id">
-                        </div>
-                <% } %>
+
+                    <form action="/orders/simulatorCreate" method="post">
+
+                
 
                         <!-- error input 
                         <div class="form-group has-error has-feedback">
@@ -64,12 +38,12 @@
                     <div class="form-group">
                         <label for="code">Danh sách sản phẩm</label>
                         <div id="listProduct">
-                            <div  class="d-flex " >
-                                <button class="btn btn-success" type="submit"><i class="la la-plus"></i></button>
-                            <select  class="form-control form-control max-w-20 mb-4px" name="itemSelect" id="itemSelect">
+                            <div  class="d-flex orderItemGroup" >
+                                <div class="btn btn-success" onclick="addNewOrderItem()"><i class="la la-plus"></i></div>
+                            <select  class="form-control form-control max-w-20 mb-4px itemSelect" name="itemSelect" >
                                 <option value=""  >Chọn sản phẩm</option>
                                 <% products.forEach(function(product, index){ %>
-                                        <option value="<%=product._id + '-' + product.productCode%>"  ><%=product.name%></option>
+                                        <option value="<%=product._id%>" data-colors="<%=product.colors%>" data-sizes="<%=product.sizes%>" data-price="<%=product.price%>" ><%=product.name%></option>
                                 <%})%>
                                 
                             </select>
@@ -86,23 +60,24 @@
                         name="price"
                         type="number"
                         value="<%= order?.price %>" 
-                        class="form-control" 
-                        id="itemPrice" 
-                        disabled
+                        class="form-control itemPrice" 
+                         
+                        
                         />
 
-                        <select  class="form-control form-control max-w-20 mb-4px" name="itemColor" id="itemColor">
+                        <select  class="form-control form-control max-w-20 mb-4px itemColor" name="itemColor" >
                             <option value=""  >Chọn màu</option>
                             
                             
                         </select>
-                        <select  class="form-control form-control max-w-20 mb-4px" name="itemSize" id="itemSize">
+                        <select  class="form-control form-control max-w-20 mb-4px itemSize" name="itemSize" >
                             <option value=""  >Chọn size</option>
                             
                             
                         </select>
-                        <button class="btn btn-danger" type="submit"><i class="la la-trash"></i></button>
+                        <div class="btn btn-danger" ><i class="la la-trash"></i></div>
                             </div>
+                            
                             
 
                         </div>
@@ -178,16 +153,11 @@
                    
                     
                     <div class="card-action"> 
-                     <% if(mode === "Create") { %>
+
                         <button class="btn btn-success" type="submit">Tạo</button>
-                    <% } %>
-                    <% if(mode === "Update") { %>
-                        <button class="btn btn-success" type="submit">Sửa</button>
-                    <% } %>
-                    <% if(mode === "Delete") { %>
-                        <button class="btn btn-danger" type="submit">Xóa</button>
-                    <% } %>
-                        <a class="btn btn-primary" href="/products">Danh sánh sản phẩm</a>
+
+                    
+                        <a class="btn btn-primary" href="/orders">Danh sánh đơn hàng</a>
                     </div>
                 </form>
             </div>

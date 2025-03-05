@@ -58,7 +58,10 @@ export async function listOrder(req, res) {
   }
 }
 export async function renderPageSimulateCreateOrder(req, res) {
-  const products = await ProductModel.find({ deletedAt: null });
+  const products = await ProductModel.find(
+    { deletedAt: null },
+    "code name price sizes colors"
+  );
   res.render("pages/orders/form", {
     title: "Create order",
     mode: "Create",
@@ -84,18 +87,92 @@ export async function createOrder(req, res) {
     }
   }
   total = (subTotal * (100 - discount)) / 100;
+
   try {
     const rs = await OrderModel.create({
       orderNo: orderNo,
       discount: discount,
       total: total,
-      status: "Created",
+      status: "created",
       orderItems: orderItems,
       numericalOrder: numericalOrder,
       createAt: new Date(),
       billingAddress: billingAddress,
     });
     res.send(rs);
+  } catch (error) {
+    console.log("error; ", error);
+  }
+}
+
+//Gia lap tao order
+export async function simulatorCreateOrder(req, res) {
+ 
+  
+  let {
+    discount,
+    itemSelect,
+    price,
+    quantity,
+    itemColor,
+    itemSize,
+    billingName,
+    billingEmail,
+    billingAddress: address,
+    billingDistrict,
+    billingCity,
+    billingPhoneNumber,
+  } = req.body;
+  let subTotal = 0,
+    total = 0,
+    numericalOrder = 1;
+  const lastOrder = await OrderModel.findOne().sort({ createdAt: -1 });
+  if (lastOrder) {
+    numericalOrder = lastOrder.numericalOrder + 1;
+  }
+
+  const orderNo = "order-" + numericalOrder;
+
+  const billingAddress = {
+    name: billingName,
+    email: billingEmail,
+    phoneNumber: billingPhoneNumber,
+    address: address,
+    district: billingDistrict,
+    city: billingCity,
+  };
+  const orderItems = itemSelect.map((productId, index) => {
+    return {
+      productId: new ObjectId(productId),
+      quantity: quantity[index],
+      price: price[index],
+      color: itemColor[index],
+      sizes: itemSize[index],
+    };
+  });
+  if (!isNaN(discount) && discount !== "") {
+    discount = parseFloat(discount);
+} else {
+    discount = 0; // Hoặc một giá trị mặc định nào đó
+}
+
+if (subTotal > 0) {
+    total = (subTotal * (100 - discount)) / 100;
+} else {
+    total = 0; // Hoặc một giá trị mặc định nào đó
+}
+  try {
+    const rs = await OrderModel.create({
+      orderNo: orderNo,
+      discount: parseFloat(discount),
+      total: total,
+      status: "created",
+      orderItems: orderItems,
+      numericalOrder: numericalOrder,
+      createAt: new Date(),
+      billingAddress: billingAddress,
+    });
+    res.redirect("/orders");
   } catch (error) {
     console.log("error; ", error);
   }
